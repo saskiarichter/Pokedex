@@ -1,24 +1,31 @@
-let pokemon = ["charmander", "bulbasaur", "squirtle", "pikachu", "jigglypuff", "eevee", "ho-oh", "mewtwo", "eelektrik", "magikarp", "gengar", "lapras", "snover", "zapdos", "moltres", "togepi", "cyndaquil", "totodile", "chikorita", "mareep", "xerneas", "lugia", "snorlax", "celebi", "treecko", "torchic", "mudkip", "zacian", "gardevoir", "cacturne"]
+let pokemonNames = ["charmander", "vulpix", "jigglypuff", "pikachu", "squirtle", "oddish", "bellsprout", "togepi", "clefairy", "cyndaquil", "mudkip", "chikorita", "growlithe", "mareep", "pichu", "eevee", "psyduck", "meowth", "teddiursa", "snorlax", "mew", "mewtwo", "togekiss", "blaziken", "flareon", "jolteon", "umbreon", "leafeon", "espeon", "vaporeon", "suicune", "entei", "raikou", "celebi", "gardevoir", "alakazam", "kirlia", "abomasnow", "roselia", "ludicolo", "meganium", "jumpluff", "azumarill", "wigglytuff", "azelf", "mesprit", "uxie", "victini"];
+let pokemons = [];
 let currentPokemon;
 
 async function loadPokemon() {
-    for (let i = 0; i < pokemon.length; i++) {
-        let url = `https://pokeapi.co/api/v2/pokemon/${pokemon[i]}`;
+    for (let i = 0; i < pokemonNames.length; i++) {
+        let url = `https://pokeapi.co/api/v2/pokemon/${pokemonNames[i]}`;
         let response = await fetch(url);
         currentPokemon = await response.json();
+        pokemons.push(currentPokemon);
+    }
 
-        createPokemonCard(i);
+        createPokemonOverview();
+        
+    console.log('loaded Pokemon', currentPokemon);
+    console.log(pokemons);
+}
+
+function createPokemonOverview() {
+    for (let i = 0; i < pokemons.length; i++) {
+        const pokemon = pokemons[i];
+        let name = pokemon['name'];
+        let type = pokemon['types']['0']['type']['name'];
+        let image = pokemon['sprites']['other']['official-artwork']['front_default'];
+        document.getElementById('pokemonOverview').innerHTML += templatePokemonCard(i, name, type, image);
         addSecondType(i);
         adjustBackgroundColor(i);
     }
-    console.log('loaded Pokemon', currentPokemon);
-}
-
-function createPokemonCard(i) {
-    let name = currentPokemon['name'];
-    let type = currentPokemon['types']['0']['type']['name'];
-    let image = currentPokemon['sprites']['front_shiny'];
-    document.getElementById('pokemonOverview').innerHTML += templatePokemonCard(i, name, type, image);
 }
 
 function templatePokemonCard(i, name, type, image) {
@@ -36,15 +43,15 @@ function templatePokemonCard(i, name, type, image) {
 }
 
 function addSecondType(i) {
-    if (currentPokemon['types']['1']) {
+    if (pokemons[i]['types']['1']) {
         document.getElementById(`pokemonTypes${i}`).innerHTML += `
-        <button id="pokemonType1" class="pokemonType">${currentPokemon['types']['1']['type']['name']}</button>
+        <button id="pokemonType1" class="pokemonType">${pokemons[i]['types']['1']['type']['name']}</button>
     `;
     }
 }
 
 function adjustBackgroundColor(i) {
-    let type = currentPokemon['types']['0']['type']['name'];
+    let type = pokemons[i]['types']['0']['type']['name'];
     backgroundColor1(i, type);
     backgroundColor2(i, type);
 }
@@ -76,23 +83,20 @@ function backgroundColor2(i, type) {
     }
 }
 
-async function openPokemonCard(i) {
-    let url = `https://pokeapi.co/api/v2/pokemon/${pokemon[i]}`;
-    let response = await fetch(url);
-    currentPokemon = await response.json();
-
-    createSingleCard();
-    addSecondTypeSingleCard();
-    adjustBackgroundSingleCard();
-    openStatistics();
+function openPokemonCard(i) {
+    createSingleCard(i);
+    addSecondTypeSingleCard(i);
+    adjustBackgroundSingleCard(i);
+    openStatistics(i);
 
     document.getElementById('body').classList.add('noscroll');
 }
 
-function createSingleCard() {
-    let name = currentPokemon['name'];
-    let type = currentPokemon['types']['0']['type']['name'];
-    let image = currentPokemon['sprites']['front_shiny'];
+function createSingleCard(i) {
+    let pokemon = pokemons[i];
+    let name = pokemon['name'];
+    let type = pokemon['types']['0']['type']['name'];
+    let image = pokemon['sprites']['other']['official-artwork']['front_default'];
     document.getElementById('containerSingleCard').innerHTML = templateSingleCard(name, type, image);
 }
 
@@ -122,16 +126,16 @@ function templateSingleCard(name, type, image) {
     `;
 }
 
-function addSecondTypeSingleCard() {
-    if (currentPokemon['types']['1']) {
+function addSecondTypeSingleCard(i) {
+    if (pokemons[i]['types']['1']) {
         document.getElementById('card-types').innerHTML += `
-        <button>${currentPokemon['types']['1']['type']['name']}</button>
+        <button>${pokemons[i]['types']['1']['type']['name']}</button>
     `;
     }
 }
 
-function adjustBackgroundSingleCard() {
-    let type = currentPokemon['types']['0']['type']['name'];
+function adjustBackgroundSingleCard(i) {
+    let type = pokemons[i]['types']['0']['type']['name'];
     adjustBackgroundColor1(type);
     adjustBackgroundColor2(type);
 }
@@ -163,13 +167,13 @@ function adjustBackgroundColor2(type) {
     }
 }
 
-function openStatistics() {
-    let hp = currentPokemon['stats']['0']['base_stat'];
-    let attack = currentPokemon['stats']['1']['base_stat'];
-    let defense = currentPokemon['stats']['2']['base_stat'];
-    let spAttack = currentPokemon['stats']['3']['base_stat'];
-    let spDefense = currentPokemon['stats']['4']['base_stat'];
-    let speed = currentPokemon['stats']['5']['base_stat'];
+function openStatistics(i) {
+    let hp = pokemons[i]['stats']['0']['base_stat'];
+    let attack = pokemons[i]['stats']['1']['base_stat'];
+    let defense = pokemons[i]['stats']['2']['base_stat'];
+    let spAttack = pokemons[i]['stats']['3']['base_stat'];
+    let spDefense = pokemons[i]['stats']['4']['base_stat'];
+    let speed = pokemons[i]['stats']['5']['base_stat'];
 
     const ctx = document.getElementById('statistics');
     createChart(ctx, hp, attack, defense, spAttack, spDefense, speed);
@@ -209,22 +213,28 @@ function closeSingleCard() {
 }
 
 function searchPokemon() {
+    console.log('test');
     let search = document.getElementById('search').value.toLowerCase();
-    let pokemons = document.querySelectorAll('.pokedex');
-
-    let list = document.getElementById('pokemonOverview');
-    list.innerHTML = '';
-
-    for (let i = 0; i < pokemons.length; i++) {
-        let name = pokemons[i].querySelector('h2').textContent;
-        if (name.toLowerCase().includes(search)) {
-            list.innerHTML = name;
+    let allPokemons = document.querySelectorAll('.pokedex');
+    
+    if (search.length >= 3) {
+            showResults(search, allPokemons);
+    } else {
+        for (let i = 0; i < pokemons.length; i++) {
+            allPokemons[i].style.display = '';
         }
     }
 }
 
-async function createCardAfterSearch(){
-   
+function showResults(search, allPokemons){
+    for (let i = 0; i < pokemons.length; i++) {
+        let pokemon = allPokemons[i];
+        let name = pokemonNames[i];
+
+        if (name.includes(search)) {
+            pokemon.style.display = ''; 
+        } else {
+            pokemon.style.display = 'none'; 
+        }   
+    }
 }
-
-
