@@ -49,13 +49,35 @@ header img{
     width: 100%;
 }
 
+.allPokemon{
+    background-color: rgb(43,41,44);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 50px;
+}
+
+.morePokemon-button{
+    padding-block: 8px;
+    padding-inline: 32px;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    border-radius: 30px;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.morePokemon-button:hover{
+    background-color: rgba(213,59,71, 0.8);
+}
+
 #pokemonOverview{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 16px;
     margin-top: 85px;
-    background-color: rgb(43,41,44);
     padding: 50px;
 }
 
@@ -241,4 +263,8 @@ header img{
 
 .noscroll { 
     overflow: hidden; 
+}
+
+.d-none{
+    display: none;
 }

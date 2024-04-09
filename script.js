@@ -1,4 +1,4 @@
-let pokemonNames = ["charmander", "vulpix", "jigglypuff", "pikachu", "squirtle", "oddish", "bellsprout", "togepi", "clefairy", "cyndaquil", "mudkip", "chikorita", "growlithe", "mareep", "pichu", "eevee", "psyduck", "meowth", "teddiursa", "snorlax", "mew", "mewtwo", "togekiss", "blaziken", "flareon", "jolteon", "umbreon", "leafeon", "espeon", "vaporeon", "suicune", "entei", "raikou", "celebi", "gardevoir", "alakazam", "kirlia", "abomasnow", "roselia", "ludicolo", "meganium", "jumpluff", "azumarill", "wigglytuff", "azelf", "mesprit", "uxie", "victini"];
+let pokemonNames = ["charmander", "vulpix", "jigglypuff", "pikachu", "squirtle", "oddish", "bellsprout", "togepi", "clefairy", "cyndaquil", "mudkip", "chikorita", "growlithe", "mareep", "pichu", "eevee", "psyduck", "meowth", "teddiursa", "celebi", "mew", "mewtwo", "togekiss", "blaziken", "flareon", "jolteon", "xerneas", "leafeon", "espeon", "vaporeon", "suicune", "entei", "raikou", "snorlax", "gardevoir", "alakazam", "kirlia", "blaziken", "roselia", "ludicolo", "meganium", "jumpluff", "azumarill", "wigglytuff", "azelf", "zacian", "uxie", "volcanion", "lickitung", "luxray"];
 let pokemons = [];
 let currentPokemon;
 
@@ -17,15 +17,35 @@ async function loadPokemon() {
 }
 
 function createPokemonOverview() {
-    for (let i = 0; i < pokemons.length; i++) {
+    for (let i = 0; i < 20; i++) {
         const pokemon = pokemons[i];
         let name = pokemon['name'];
         let type = pokemon['types']['0']['type']['name'];
-        let image = pokemon['sprites']['other']['official-artwork']['front_default'];
+        let image = pokemon['sprites']['other']['official-artwork']['front_default'];        
+        
         document.getElementById('pokemonOverview').innerHTML += templatePokemonCard(i, name, type, image);
+          
         addSecondType(i);
-        adjustBackgroundColor(i);
+        adjustBackgroundColor(i); 
     }
+}
+
+function loadMorePokemon(){
+    let openPokemon = document.querySelectorAll('.pokedex');
+    let number = openPokemon.length;
+    
+    for (let i = number; i < number + 10; i++) {
+        const pokemon = pokemons[i];
+        let name = pokemon['name'];
+        let type = pokemon['types']['0']['type']['name'];
+        let image = pokemon['sprites']['other']['official-artwork']['front_default'];        
+        
+        document.getElementById('pokemonOverview').innerHTML += templatePokemonCard(i, name, type, image);
+          
+        addSecondType(i);
+        adjustBackgroundColor(i);   
+    }
+
 }
 
 function templatePokemonCard(i, name, type, image) {

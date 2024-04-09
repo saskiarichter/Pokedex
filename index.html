@@ -19,9 +19,11 @@
     </header>
 
     <div class="content" id="content">
-        <div id="pokemonOverview"></div>
-        <div id="containerSingleCard" class="containerSingleCard">
+        <div class="allPokemon">
+            <div id="pokemonOverview"></div>
+            <button id="morePokemon-button" class="morePokemon-button" onclick="loadMorePokemon()">more Pokemon</button>
         </div>
+        <div id="containerSingleCard" class="containerSingleCard"></div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
