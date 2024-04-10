@@ -14,7 +14,7 @@
         <h1 class="title">Pokedex</h1>
         <div class="header-search">
             <input id="search" type="text" onkeyup="searchPokemon()">
-            <button ><img src="./img/search.png" alt=""></button>
+            <button><img src="./img/search.png" alt=""></button>
         </div>
     </header>
 
@@ -23,7 +23,8 @@
             <div id="pokemonOverview"></div>
             <button id="morePokemon-button" class="morePokemon-button" onclick="loadMorePokemon()">more Pokemon</button>
         </div>
-        <div id="containerSingleCard" class="containerSingleCard"></div>
+        <div id="containerSingleCard" class="containerSingleCard d-none" onclick="closeSingleCard()"></div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

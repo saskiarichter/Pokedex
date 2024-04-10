@@ -10,8 +10,8 @@ async function loadPokemon() {
         pokemons.push(currentPokemon);
     }
 
-        createPokemonOverview();
-        
+    createPokemonOverview();
+
     console.log('loaded Pokemon', currentPokemon);
     console.log(pokemons);
 }
@@ -21,30 +21,31 @@ function createPokemonOverview() {
         const pokemon = pokemons[i];
         let name = pokemon['name'];
         let type = pokemon['types']['0']['type']['name'];
-        let image = pokemon['sprites']['other']['official-artwork']['front_default'];        
-        
+        let image = pokemon['sprites']['other']['official-artwork']['front_default'];
+
         document.getElementById('pokemonOverview').innerHTML += templatePokemonCard(i, name, type, image);
-          
+
         addSecondType(i);
-        adjustBackgroundColor(i); 
+        adjustBackgroundColor(i);
     }
 }
 
-function loadMorePokemon(){
+function loadMorePokemon() {
     let openPokemon = document.querySelectorAll('.pokedex');
     let number = openPokemon.length;
-    
+
     for (let i = number; i < number + 10; i++) {
         const pokemon = pokemons[i];
         let name = pokemon['name'];
         let type = pokemon['types']['0']['type']['name'];
-        let image = pokemon['sprites']['other']['official-artwork']['front_default'];        
-        
+        let image = pokemon['sprites']['other']['official-artwork']['front_default'];
+
         document.getElementById('pokemonOverview').innerHTML += templatePokemonCard(i, name, type, image);
-          
+
         addSecondType(i);
-        adjustBackgroundColor(i);   
+        adjustBackgroundColor(i);
     }
+
 
 }
 
@@ -104,6 +105,7 @@ function backgroundColor2(i, type) {
 }
 
 function openPokemonCard(i) {
+    document.getElementById('containerSingleCard').classList.remove('d-none');
     createSingleCard(i);
     addSecondTypeSingleCard(i);
     adjustBackgroundSingleCard(i);
@@ -117,13 +119,15 @@ function createSingleCard(i) {
     let name = pokemon['name'];
     let type = pokemon['types']['0']['type']['name'];
     let image = pokemon['sprites']['other']['official-artwork']['front_default'];
-    document.getElementById('containerSingleCard').innerHTML = templateSingleCard(name, type, image);
+    document.getElementById('containerSingleCard').innerHTML = templateSingleCard(i, name, type, image);
 }
 
-function templateSingleCard(name, type, image) {
+function templateSingleCard(i, name, type, image) {
     return /*html*/ `
-    <div id="singleCard">
-        <div class="singleCard-top">
+    <div class="layoutSingleCard" onclick="doNotClose(event)">
+        <img class="skip-img" src="./img/left-white.png" onclick="previousCard(${i})">
+        <div id="singleCard">
+            <div class="singleCard-top">
             <div class="card-nav">
                 <img onclick="closeSingleCard()" id="card-nav-left" src="./img/arrow-to-left-white.png" alt="Zurück">
                 <img id="card-nav-right" src="./img/heart-white.png" alt="Favorit">
@@ -135,13 +139,15 @@ function templateSingleCard(name, type, image) {
             <div class="card-pokemonImage">
                 <img src="${image}" alt="Pokemon">
             </div>
-        </div>
-        <div class="singleCard-bottom">
+            </div>
+            <div class="singleCard-bottom">
             <h3>statistics</h3>
             <div class="div-statistics">
                 <canvas id="statistics"></canvas>
             </div>
+            </div>
         </div>
+        <img class="skip-img" src="./img/right-white.png" onclick="nextCard(${i})">
     </div>
     `;
 }
@@ -228,17 +234,21 @@ function createChart(ctx, hp, attack, defense, spAttack, spDefense, speed) {
 }
 
 function closeSingleCard() {
-    document.getElementById('containerSingleCard').innerHTML = '';
+    document.getElementById('containerSingleCard').classList.add('d-none');
     document.getElementById('body').classList.remove('noscroll');
+}
+
+function doNotClose(event){
+    event.stopPropagation();
 }
 
 function searchPokemon() {
     console.log('test');
     let search = document.getElementById('search').value.toLowerCase();
     let allPokemons = document.querySelectorAll('.pokedex');
-    
+
     if (search.length >= 3) {
-            showResults(search, allPokemons);
+        showResults(search, allPokemons);
     } else {
         for (let i = 0; i < pokemons.length; i++) {
             allPokemons[i].style.display = '';
@@ -246,15 +256,25 @@ function searchPokemon() {
     }
 }
 
-function showResults(search, allPokemons){
+function showResults(search, allPokemons) {
     for (let i = 0; i < pokemons.length; i++) {
         let pokemon = allPokemons[i];
         let name = pokemonNames[i];
 
         if (name.includes(search)) {
-            pokemon.style.display = ''; 
+            pokemon.style.display = '';
         } else {
-            pokemon.style.display = 'none'; 
-        }   
+            pokemon.style.display = 'none';
+        }
     }
+}
+
+function nextCard(i){
+    i++;
+    openPokemonCard(i);
+}
+
+function previousCard(i){
+    i--;
+    openPokemonCard(i);
 }

@@ -82,17 +82,18 @@ header img{
 }
 
 .pokedex{
-    min-height: 200px;
-    width: 300px;
+    height: 150px;
+    width: 200px;
     color: white;
     display: flex;
     flex-direction: column;
     background-color: rgb(118, 57, 118);
     cursor: pointer;
+    overflow: hidden;
 }
 
 .pokedex:hover img{
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
 
 .backgroundRed{
@@ -132,8 +133,8 @@ header img{
 
 .pokemonName{
     margin: 0;
-    padding: 16px 0 0 16px;
-    font-size: 30px;
+    padding: 10px 0 0 14px;
+    font-size: 24px;
 }
 
 .pokemonInfo{
@@ -142,55 +143,69 @@ header img{
 }
 
 .pokemonType{
-    height: 30px;
-    margin: 16px 0 0 16px;
-    padding-block: 8px;
-    padding-inline: 16px;
+    margin: 10px 0 0 14px;
+    padding-block: 4px;
+    padding-inline: 12px;
     background-color: rgba(0, 0, 0, 0.2);
     color: white;
     border-radius: 15px;
     border: none;
+    font-size: 12px;
 }
 
 #PokemonImg{
     height: 150px;
     object-fit: cover;
-    margin-right: 16px;
-    margin-bottom: 16px;
+    margin-left: -20px;
+    margin-top: -8px;
     transition: transform .3s ease-in-out;
 }
 
 .containerSingleCard {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 99;
-    margin-top: 85px;
+}
+
+.layoutSingleCard{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.skip-img{
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    cursor: pointer;
 }
 
 #singleCard{
-    height: 100vh;
-    width: 100%;
-    max-width: 700px;
+    height: 600px;
+    width: 400px;
     display: flex;
     align-items: center;
     flex-flow: column;
-    border-radius: 0;
+    border-radius: 15px;
 }
 
 .singleCard-top{
     width: 100%;
+    height: 300px;
     color: white;
-    padding-top: 32px;
+    padding-top: 24px;
+    z-index: 99;
 }
 
 .singleCard-top h2{
     padding-left: 32px;
-    font-size: 40px;
+    font-size: 32px;
 }
 
 .card-nav{
@@ -201,8 +216,8 @@ header img{
 }
 
 #card-nav-left{
-    height: 40px;
-    margin-left: -5px;
+    height: 25px;
+    margin-left: -3px;
     cursor: pointer;
 }
 
@@ -215,43 +230,44 @@ header img{
 }
 
 .card-types button{
-    margin: 16px 0 0 16px;
-    padding-block: 8px;
-    padding-inline: 32px;
+    margin: 12px 0 0 16px;
+    padding-block: 4px;
+    padding-inline: 24px;
     background-color: rgba(0, 0, 0, 0.2);
     color: white;
     border-radius: 30px;
     border: none;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .card-pokemonImage{
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
 }
 
 .card-pokemonImage img{
     width: 200px;
     object-fit: cover;
-    margin-top: 16px;
-    margin-bottom: 48px;
-    margin-left: 0px;
+    margin-top: 0;
+    margin-right: 48px;
 }
 
 .singleCard-bottom{
     width: 100%;
     flex-grow: 1;
     background-color: white;
-    border-top-left-radius: 40px;
-    border-top-right-radius: 40px;
-    margin-top: -30px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    margin-top: -40px;
 }
 
 .singleCard-bottom h3{
     margin: 0;
     padding-top: 32px;
     padding-bottom: 24px;
-    text-align: center;
+    padding-left: 32px;
 }
 
 .div-statistics{
@@ -268,3 +284,4 @@ header img{
 .d-none{
     display: none;
 }
+
