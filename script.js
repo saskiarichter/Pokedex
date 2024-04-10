@@ -229,6 +229,7 @@ function createChart(ctx, hp, attack, defense, spAttack, spDefense, speed) {
             plugins: {
                 legend: { display: false },
             },
+            maintainAspectRatio: false,
         }
     });
 }

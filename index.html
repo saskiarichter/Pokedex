@@ -4,16 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokédex</title>
+    <title>Pokedex</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="./img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="./img/favicon/site.webmanifest">
+    <link rel="mask-icon" href="./img/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="./img/favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="./img/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
 </head>
 
 <body id="body" onload="loadPokemon()">
     <header>
-        <h1 class="title">Pokedex</h1>
+        <div class="header-left">
+            <img class="pokeball" src="./img/pokeball-red.png" alt="Pokeball">
+            <h1 class="title">Pokedex</h1>
+        </div>
         <div class="header-search">
-            <input id="search" type="text" onkeyup="searchPokemon()">
+            <input id="search" type="text" placeholder="Pokemon" onkeyup="searchPokemon()">
             <button><img src="./img/search.png" alt=""></button>
         </div>
     </header>
