@@ -1,10 +1,11 @@
-let pokemonNames = ["charmander", "vulpix", "jigglypuff", "pikachu", "squirtle", "oddish", "bellsprout", "togepi", "clefairy", "cyndaquil", "mudkip", "chikorita", "growlithe", "mareep", "pichu", "eevee", "psyduck", "meowth", "teddiursa", "celebi", "mew", "mewtwo", "togekiss", "blaziken", "flareon", "jolteon", "xerneas", "leafeon", "espeon", "vaporeon", "suicune", "entei", "raikou", "snorlax", "gardevoir", "alakazam", "kirlia", "magcargo", "roselia", "ludicolo", "meganium", "jumpluff", "azumarill", "wigglytuff", "azelf", "zacian", "uxie", "volcanion", "lickitung", "luxray"];
+let pokemonNames = [];
 let pokemons = [];
 let currentPokemon;
+let pokemonSearch = [];
 
 async function loadPokemon() {
-    for (let i = 0; i < pokemonNames.length; i++) {
-        let url = `https://pokeapi.co/api/v2/pokemon/${pokemonNames[i]}`;
+    for (let i = 1; i <= 20; i++) {
+        let url = `https://pokeapi.co/api/v2/pokemon/${i}/`;
         let response = await fetch(url);
         currentPokemon = await response.json();
         pokemons.push(currentPokemon);
@@ -14,9 +15,24 @@ async function loadPokemon() {
 
     console.log('loaded Pokemon', currentPokemon);
     console.log(pokemons);
+    await loadPokemonNames();
+}
+
+async function loadPokemonNames() {
+    let url = 'https://pokeapi.co/api/v2/pokemon?limit=1025&offset=0';
+    let response = await fetch(url);
+    let pokedex = await response.json();
+    let allPokemon = pokedex['results'];
+
+    for (let i = 0; i < allPokemon.length; i++) {
+        let currentPokemonName = allPokemon[i]['name'];
+        pokemonNames.push(currentPokemonName);
+    }
+    console.log(pokemonNames);
 }
 
 function createPokemonOverview() {
+    document.getElementById('pokemonOverview').innerHTML = '';
     for (let i = 0; i < 20; i++) {
         const pokemon = pokemons[i];
         let name = pokemon['name'];
@@ -30,11 +46,16 @@ function createPokemonOverview() {
     }
 }
 
-function loadMorePokemon() {
+async function loadMorePokemon() {
     let openPokemon = document.querySelectorAll('.pokedex');
     let number = openPokemon.length;
 
     for (let i = number; i < number + 10; i++) {
+        let url = `https://pokeapi.co/api/v2/pokemon/${i}/`;
+        let response = await fetch(url);
+        currentPokemon = await response.json();
+        pokemons.push(currentPokemon);
+
         const pokemon = pokemons[i];
         let name = pokemon['name'];
         let type = pokemon['types']['0']['type']['name'];
@@ -45,8 +66,6 @@ function loadMorePokemon() {
         addSecondType(i);
         adjustBackgroundColor(i);
     }
-
-
 }
 
 function templatePokemonCard(i, name, type, image) {
@@ -239,43 +258,55 @@ function closeSingleCard() {
     document.getElementById('body').classList.remove('noscroll');
 }
 
-function doNotClose(event){
+function doNotClose(event) {
     event.stopPropagation();
 }
 
 function searchPokemon() {
-    console.log('test');
     let search = document.getElementById('search').value.toLowerCase();
-    let allPokemons = document.querySelectorAll('.pokedex');
 
     if (search.length >= 3) {
-        showResults(search, allPokemons);
+        loadResults(search);
     } else {
-        for (let i = 0; i < pokemons.length; i++) {
-            allPokemons[i].style.display = '';
-        }
+        createPokemonOverview();
     }
 }
 
-function showResults(search, allPokemons) {
-    for (let i = 0; i < pokemons.length; i++) {
-        let pokemon = allPokemons[i];
-        let name = pokemonNames[i];
+async function loadResults(search) {
+    pokemonSearch = [];
+    for (let i = 0; i < pokemonNames.length; i++) {
+        let pokemonName = pokemonNames[i];
 
-        if (name.includes(search)) {
-            pokemon.style.display = '';
+        if (pokemonName.includes(search)) {
+            let url = `https://pokeapi.co/api/v2/pokemon/${i + 1}/`;
+            let response = await fetch(url);
+            currentPokemon = await response.json();
+            pokemonSearch.push(currentPokemon);
         } else {
-            pokemon.style.display = 'none';
+            document.getElementById('pokemonOverview').innerHTML = '';
         }
+    }
+    showResults();
+}
+
+function showResults() {
+    document.getElementById('pokemonOverview').innerHTML = '';
+    for (let j = 0; j < pokemonSearch.length; j++) {
+        const pokemon = pokemonSearch[j];
+        let name = pokemon['name'];
+        let type = pokemon['types']['0']['type']['name'];
+        let image = pokemon['sprites']['other']['official-artwork']['front_default'];
+
+        document.getElementById('pokemonOverview').innerHTML += templatePokemonCard(j, name, type, image);
     }
 }
 
-function nextCard(i){
+function nextCard(i) {
     i++;
     openPokemonCard(i);
 }
 
-function previousCard(i){
+function previousCard(i) {
     i--;
     openPokemonCard(i);
 }
