@@ -198,12 +198,19 @@ header img {
     justify-content: center;
 }
 
+.skip-img-div{
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+}
+
 .skip-img {
     height: 40px;
     width: 40px;
     object-fit: cover;
     cursor: pointer;
-    padding: 8px;
 }
 
 #singleCard {
@@ -409,7 +416,7 @@ header img {
     #search{
         width: 200px;
     }
-    
+
     .skip-img {
         height: 45px;
         width: 45px;
